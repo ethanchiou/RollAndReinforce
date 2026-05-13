@@ -6,23 +6,28 @@
 
 ## Week 1 — Foundation
 
-- [ ] Install Rojo (and Aftman if not already)
-- [ ] Initialize git repo in this directory
-- [ ] Install Knit (or chosen framework) via Wally
-- [ ] Install ProfileService source
-- [ ] Install TestEZ
+- [x] Install Rojo (and Aftman if not already) — Aftman 0.3.0, Rojo 7.4.4, Wally 0.3.2 installed
+- [x] Initialize git repo in this directory — initial scaffold committed on `main`
+- [x] Draft initial item catalog — 10 items scaffolded in `src/shared/Items.luau` + `docs/item-database.md`; expand to 15-20 before week 8
+- [ ] **Add `~/.aftman/bin` to your shell PATH.** Append to `~/.zshrc`: `export PATH="$HOME/.aftman/bin:$PATH"` then `source ~/.zshrc`. (Claude was blocked from editing zshrc.)
+- [ ] **Migrate Aftman → Rokit before 2026-07-19** (Aftman upstream archived; Brew formula sunset date). `rokit.toml` has the same format as `aftman.toml`.
+- [ ] Uncomment + install Wally deps: Knit, ProfileService, TestEZ — currently commented in `wally.toml`. Run `wally install` after.
 - [ ] Lock game name (currently "Roll & Reinforce")
 - [ ] Lock fortress aesthetic (lean: suburban house)
-- [ ] Draft initial item catalog (15-20 items) — flesh out `docs/item-database.md`
 - [ ] Stand up a blank Roblox place; verify Rojo sync works
+  - Run `rojo serve default.project.json` from terminal
+  - In Roblox Studio, install the Rojo plugin (one-time)
+  - Click Rojo plugin → Connect (default port 34872)
+  - Press Play → verify `[RollAndReinforce] Server bootstrapping…` appears in Output panel
 
 ## Week 2 — Slot machine + roll math
 
-- [ ] `src/shared/RollMath.luau` — implement `rollItem(weights, modifiers)`, `rollModifier()`
-- [ ] `src/shared/Items.luau` — populate with 5 placeholder items (1 per rarity tier)
+- [x] `src/shared/RollMath.luau` — implement `rollItem(weights, modifiers)`, `rollModifier()` (signature done; round modifier not yet rolled)
+- [x] `src/shared/Items.luau` — 10 items scaffolded (target 15-20 before week 8)
+- [x] TestEZ tests for roll weighting distribution (spec file written; needs runner in Studio)
 - [ ] `src/client/SlotMachineUI.luau` — 3-reel animation, result reveal
 - [ ] `src/server/RollService.luau` — server-authoritative roll, returns to client
-- [ ] TestEZ tests for roll weighting distribution
+- [ ] Implement actual round-modifier rolling in `RollMath.rollItem` (TODO marker present)
 
 ## Week 3 — Carry + place mechanic
 
