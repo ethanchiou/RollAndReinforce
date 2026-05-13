@@ -1,47 +1,65 @@
 # TODO — Roll & Reinforce
 
-> Items **not yet implemented**. When something ships, delete it from here and add it to `SPEC.md` → Recently Done.
+> Items **not yet implemented**. When something ships, delete it from here and add it to `SPEC.md` § Recently Done. For build state, see `STATUS.md`.
+
+---
+
+## 🎯 Do these next (current blockers)
+
+Ordered by what unblocks what. Top items are pure human-only steps.
+
+1. [ ] **Add `~/.aftman/bin` to your shell PATH.** Append to `~/.zshrc`: `export PATH="$HOME/.aftman/bin:$PATH"`, then `source ~/.zshrc`. (Claude was blocked from editing zshrc.)
+2. [ ] **Connect Roblox Studio to Rojo.** Rojo is already serving on `localhost:34872` (PID 58357).
+   - Open `/Applications/RobloxStudio.app`, create a blank baseplate.
+   - Install the Rojo plugin (one-time, via Studio's Toolbox or Plugin marketplace).
+   - Click Rojo plugin → Connect (auto-detects port 34872).
+   - Press Play → expect `[RollAndReinforce] Server bootstrapping…` and a smoke-roll line like `Smoke roll: Common — Tarnished Coin` in Output. ← This is the green-light end-to-end check.
+3. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). This is your local workspace; only code is committed.
+4. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
+5. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
+
+After those: move into Week 2 work.
+
+---
+
+## ⚠️ Operational debt to clear
+
+- [ ] **Migrate Aftman → Rokit before 2026-07-19.** Aftman's upstream is archived; Homebrew formula sunsets that date. `rokit.toml` uses the same format as `aftman.toml`, so migration is trivial. Run `cargo install rokit` (or brew tap roblox/rokit when available), copy `aftman.toml` → `rokit.toml`, `rokit install`.
+- [ ] **Push to a remote.** `gh repo create RollAndReinforce --private --source=. --push`.
+- [ ] **Uncomment + install Wally deps** when first used: Knit, ProfileService, TestEZ. Currently commented in `wally.toml`. Run `wally install` after.
 
 ---
 
 ## Week 1 — Foundation
 
-- [x] Install Rojo (and Aftman if not already) — Aftman 0.3.0, Rojo 7.4.4, Wally 0.3.2 installed
-- [x] Initialize git repo in this directory — initial scaffold committed on `main`
-- [x] Draft initial item catalog — 10 items scaffolded in `src/shared/Items.luau` + `docs/item-database.md`; expand to 15-20 before week 8
-- [ ] **Add `~/.aftman/bin` to your shell PATH.** Append to `~/.zshrc`: `export PATH="$HOME/.aftman/bin:$PATH"` then `source ~/.zshrc`. (Claude was blocked from editing zshrc.)
-- [ ] **Migrate Aftman → Rokit before 2026-07-19** (Aftman upstream archived; Brew formula sunset date). `rokit.toml` has the same format as `aftman.toml`.
-- [ ] Uncomment + install Wally deps: Knit, ProfileService, TestEZ — currently commented in `wally.toml`. Run `wally install` after.
-- [ ] Lock game name (currently "Roll & Reinforce")
-- [ ] Lock fortress aesthetic (lean: suburban house)
-- [ ] Stand up a blank Roblox place; verify Rojo sync works
-  - Run `rojo serve default.project.json` from terminal
-  - In Roblox Studio, install the Rojo plugin (one-time)
-  - Click Rojo plugin → Connect (default port 34872)
-  - Press Play → verify `[RollAndReinforce] Server bootstrapping…` appears in Output panel
+- [x] Install Aftman 0.3.0, Rojo 7.4.4, Wally 0.3.2
+- [x] `git init` + initial scaffold commit on `main`
+- [x] Scaffold initial item catalog — 10 items in `src/shared/Items.luau` + `docs/item-database.md`
+- [x] Rojo serve verified working on `localhost:34872`
+- [ ] Items above in **Do these next** (PATH, Studio connect, place file, decisions, spawn tags)
 
 ## Week 2 — Slot machine + roll math
 
-- [x] `src/shared/RollMath.luau` — implement `rollItem(weights, modifiers)`, `rollModifier()` (signature done; round modifier not yet rolled)
-- [x] `src/shared/Items.luau` — 10 items scaffolded (target 15-20 before week 8)
-- [x] TestEZ tests for roll weighting distribution (spec file written; needs runner in Studio)
+- [x] `src/shared/RollMath.luau` — `rollItem(weights, modifiers)` signature done (Balatro v2-ready)
+- [x] `src/shared/Items.luau` — 10 items scaffolded (target 15-20 by week 8)
+- [x] TestEZ specs for roll weighting distribution (need to be runnable from Studio — see Week 1 Wally deps)
 - [ ] `src/client/SlotMachineUI.luau` — 3-reel animation, result reveal
-- [ ] `src/server/RollService.luau` — server-authoritative roll, returns to client
-- [ ] Implement actual round-modifier rolling in `RollMath.rollItem` (TODO marker present)
+- [ ] `src/server/RollService.luau` — server-auth roll, RemoteEvent replicates result to roller
+- [ ] Implement round-modifier roll inside `RollMath.rollItem` (TODO marker in code)
 
 ## Week 3 — Carry + place mechanic
 
+- [x] `src/server/Placement.luau` — pathfinding validation + commit (skeleton done; needs `ZombieSpawn`-tagged parts to actually validate)
 - [ ] `src/client/ItemCarry.luau` — first-person item attachment to view model
 - [ ] `src/client/PlacementPreview.luau` — ghost preview at targeted spot
-- [ ] `src/server/Placement.luau` — pathfinding validation + commit
 - [ ] Build phase timer (starts on placement)
 - [ ] Movement speed penalty while carrying
 
 ## Week 4 — Wave system + 3 zombie types
 
-- [ ] `src/server/Waves.luau` — wave definitions, scaling formula
-- [ ] Walker, Runner, Brute (basic AI: path to item + nearest player)
-- [ ] Spawn points around fortress perimeter
+- [x] `src/server/Waves.luau` — hand-authored r1-3 + procedural r4+, sub-linear player-count scaling
+- [ ] Walker, Runner, Brute zombie models + scripts (basic AI: path to item + nearest player)
+- [ ] Spawn-point block-out around fortress perimeter (Studio work, then tag `ZombieSpawn`)
 - [ ] Round-end detection (wave cleared or timer out)
 - [ ] First solo playtest
 
@@ -54,23 +72,22 @@
 
 ## Week 6 — Remaining zombie types + wave scaling
 
-- [ ] Climber (wall-bypass + audio + minimap ping)
-- [ ] Spitter (ranged AI + acid projectile)
-- [ ] Wave scaling formula tuned for solo + 2p
-- [ ] Difficulty curve through round 10
+- [ ] Climber zombie (wall-bypass + distinct audio + minimap ping)
+- [ ] Spitter zombie (ranged AI + acid projectile)
+- [ ] Wave scaling tuned for solo + 2p (curves through round 10)
 
 ## Week 7 — Co-op networking + 2-player playtest
 
-- [ ] Player join/leave handling mid-match
+- [ ] Player join/leave mid-match handling
 - [ ] Shared fortress state sync
-- [ ] Decide: shared coins or per-player (playtest both)
+- [ ] Decide via playtest: shared coins or per-player
 - [ ] Ping system for callouts + placement suggestions
 - [ ] First 2-player playtest
 
 ## Week 8 — Full item catalog + retention logic + 4p playtest
 
-- [ ] All 15-20 items implemented (effects, sell values, placement footprints)
-- [ ] `retentionRounds` tracking per placed item
+- [ ] Items expanded to 15-20 (full catalog in `docs/item-database.md` stretch list)
+- [ ] `retentionRounds` tracking per placed item (skeleton in `Placement.tickRound`)
 - [ ] "Item banked" celebration UI
 - [ ] First 4-player playtest
 
@@ -86,7 +103,7 @@
 - [ ] Minimap with zombie pings
 - [ ] Between-round scout camera
 - [ ] Audio pass (climber cue critical)
-- [ ] Closed friends-group playtest (unlisted)
+- [ ] Closed friends-group playtest (unlisted experience)
 
 ## Week 11 — Balance + monetization
 
@@ -98,7 +115,7 @@
 ## Week 12 — Soft launch
 
 - [ ] Soft launch (public, undiscovered)
-- [ ] KPI dashboard: session length, R5/R10 completion, gamepass conversion, D1/D7
+- [ ] KPI dashboard: session length, R5/R10 completion, gamepass conversion, D1/D7 retention
 - [ ] Iteration plan v2
 
 ---
@@ -116,8 +133,21 @@
 
 ---
 
+## Art pipeline (defer until week 5+)
+
+The Roll & Reinforce visual identity lives in ~5-10 hero items + the slot machine itself. Everything else is pack assets.
+
+- [ ] Buy a coherent low-poly zombie + fortress pack from Roblox Creator Store ($50-200)
+- [ ] Author hero items in Blender via `bpy` Python scripts (headless, driven from Claude session) — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet
+- [ ] Bake textures, export FBX (+Y up, -Z forward, meters), import as MeshPart in Studio
+- [ ] Roblox MeshPart limits: ≤21,000 tris, ≤1024×1024 texture per surface
+- [ ] Author `docs/blender-pipeline.md` when first hero item is built
+
+---
+
 ## Cross-cutting / always-on
 
-- [ ] Keep `SPEC.md` Recently Done up to date as items ship
+- [ ] Keep `SPEC.md` § Recently Done current as items ship
+- [ ] Keep `STATUS.md` current when material state changes (tooling, services, blockers)
 - [ ] TestEZ coverage for all shared modules (roll math, item db lookups, wave scaling formula)
-- [ ] Rojo sync stable; no manual Studio edits checked into git
+- [ ] Rojo sync stable; no manual Studio code edits checked into git
