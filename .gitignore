@@ -1,0 +1,40 @@
+# Roblox build artifacts
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+build.rbxlx
+build.rbxl
+
+# Wally package cache
+/Packages/
+/ServerPackages/
+/DevPackages/
+wally.lock
+
+# Rojo
+sourcemap.json
+
+# Aftman / Foreman tools (these live in user home or aftman.toml — not committed)
+.aftman/
+.foreman/
+
+# Editor cruft
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Asset working files (binary, large) — opt in to LFS for what should be committed
+*.blend
+*.blend1
+*.fbx
+*.psd
+*.ai
+assets/raw/
+
+# Logs and local-only
+*.log
+.env
+.env.local
