@@ -135,7 +135,10 @@ The Roll & Reinforce visual identity lives in ~5-10 hero items + the slot machin
 Pulled forward because the Blender MCP bridge is live now and the procedural pipeline is the fastest way to lock the visual direction before gameplay code accumulates around placeholder models. See `SPEC.md` § Zombie Roster § Visual direction for the style spec.
 
 - [x] **Base zombie (Walker)** — shipped 2026-05-19. `Assets/zombies/zombie-base.blend` + `.fbx`. 352 verts / 528 tris. Open mouth + bandages + bloodstain + skin/cloth noise mottling.
-- [ ] Runner / Brute / Climber / Spitter — silhouette-edits off the Walker base where possible.
+- [x] **Runner** — shipped 2026-05-19. `Assets/zombies/zombie-runner.{blend,fbx}`. 272 v / 408 t. Forward-leaning sprinter, red eyes, sprint arm pose.
+- [x] **Brute** — shipped 2026-05-19. `Assets/zombies/zombie-brute.{blend,fbx}`. 400 v / 600 t. Wide, no-neck, massive arms, chest plate, knuckle spikes, asymmetric oversized eye.
+- [x] **Climber** — shipped 2026-05-19. `Assets/zombies/zombie-climber.{blend,fbx}`. 344 v / 516 t. Tall mantis, pale skin, hand+toe claws, purple eyes.
+- [x] **Spitter** — shipped 2026-05-19. `Assets/zombies/zombie-spitter.{blend,fbx}`. 304 v / 456 t. Back-tilted, glowing acid sac, drooling mouth, atrophied arms.
 - [ ] Hero items in Blender — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet.
 - [ ] Optionally: low-poly fortress pack from Roblox Creator Store ($50-200) for the shell. Hero items still authored bespoke.
 - [ ] Roblox MeshPart limits to respect: ≤21,000 tris, ≤1024×1024 texture per surface. Target for zombies: ≤1500 tris, 512² albedo.
