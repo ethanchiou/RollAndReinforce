@@ -8,15 +8,16 @@
 
 Ordered by what unblocks what. Top items are pure human-only steps.
 
-1. [ ] **Add `~/.aftman/bin` to your shell PATH.** Append to `~/.zshrc`: `export PATH="$HOME/.aftman/bin:$PATH"`, then `source ~/.zshrc`. (Claude was blocked from editing zshrc.)
-2. [ ] **Connect Roblox Studio to Rojo.** Rojo is already serving on `localhost:34872` (PID 58357).
-   - Open `/Applications/RobloxStudio.app`, create a blank baseplate.
-   - Install the Rojo plugin (one-time, via Studio's Toolbox or Plugin marketplace).
-   - Click Rojo plugin → Connect (auto-detects port 34872).
-   - Press Play → expect `[RollAndReinforce] Server bootstrapping…` and a smoke-roll line like `Smoke roll: Common — Tarnished Coin` in Output. ← This is the green-light end-to-end check.
-3. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). This is your local workspace; only code is committed.
-4. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
-5. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
+1. [ ] **Pin the project's toolchain.** From the project root: `aftman install`. First time only — Aftman blocks invocations of pinned tools until they're downloaded. (`~/.aftman/bin` is already on PATH on Windows; no shell config needed.)
+2. [ ] **Start Rojo:** `rojo serve` (from the project root). Listens on `localhost:34872`.
+3. [ ] **Connect Roblox Studio to Rojo.**
+   - Open Roblox Studio (`~/AppData/Local/Roblox/Versions/.../RobloxStudioBeta.exe`), create a blank baseplate.
+   - The Rojo plugin is already installed (`RojoManagedPlugin.rbxm`). Click Rojo plugin → Connect (auto-detects port 34872).
+   - Press Play → expect `[RollAndReinforce] Server bootstrapping…` and a smoke-roll line like `Smoke roll: Common — Tarnished Coin` in Output. ← end-to-end green light.
+4. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). Your local workspace; only code is committed.
+5. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
+6. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
+7. [ ] **Push the recent cleanup commits**: `git push -u origin main`.
 
 After those: move into Week 2 work.
 
@@ -24,8 +25,7 @@ After those: move into Week 2 work.
 
 ## ⚠️ Operational debt to clear
 
-- [ ] **Migrate Aftman → Rokit before 2026-07-19.** Aftman's upstream is archived; Homebrew formula sunsets that date. `rokit.toml` uses the same format as `aftman.toml`, so migration is trivial. Run `cargo install rokit` (or brew tap roblox/rokit when available), copy `aftman.toml` → `rokit.toml`, `rokit install`.
-- [ ] **Push to a remote.** `gh repo create RollAndReinforce --private --source=. --push`.
+- [ ] **Migrate Aftman → Rokit before 2026-07-19.** Aftman's upstream is archived. `rokit.toml` uses the same format as `aftman.toml`, so migration is trivial. Install Rokit (`cargo install rokit` or the official installer), copy `aftman.toml` → `rokit.toml`, `rokit install`.
 - [ ] **Uncomment + install Wally deps** when first used: Knit, ProfileService, TestEZ. Currently commented in `wally.toml`. Run `wally install` after.
 
 ---
