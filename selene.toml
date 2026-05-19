@@ -1,0 +1,12 @@
+std = "roblox+testez"
+
+# Style rules: lean toward warnings, not errors, so a lint failure never
+# blocks a hot iteration loop. Tighten before launch.
+[lints]
+unused_variable = "warn"
+shadowing = "warn"
+
+# We do use `local function f() ... end` patterns intentionally for the
+# closure-style modules; turn off the rule that wants them at the top.
+mixed_table = "deny"
+empty_if = "deny"

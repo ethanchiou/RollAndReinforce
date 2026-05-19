@@ -1,0 +1,49 @@
+# TestEZ global definitions for Selene. Picked up automatically when
+# selene.toml sets `std = "roblox+testez"`.
+#
+# Without this, selene flags every describe/it/expect in
+# src/tests/*.spec.luau as an undefined variable.
+#
+# Spec: https://kampfkarren.github.io/selene/usage/std.html
+
+base: roblox
+name: testez
+
+globals:
+  describe:
+    args:
+      - type: string
+      - type: function
+  it:
+    args:
+      - type: string
+      - type: function
+  itFOCUS:
+    args:
+      - type: string
+      - type: function
+  itSKIP:
+    args:
+      - type: string
+      - type: function
+  FOCUS:
+    args: []
+  SKIP:
+    args: []
+  HACK_NO_XPCALL:
+    args: []
+  beforeAll:
+    args:
+      - type: function
+  beforeEach:
+    args:
+      - type: function
+  afterAll:
+    args:
+      - type: function
+  afterEach:
+    args:
+      - type: function
+  expect:
+    args:
+      - type: any

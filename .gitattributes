@@ -1,0 +1,19 @@
+# Force LF line endings for all text files so stylua --check is consistent
+# across Mac/Linux/Windows checkouts. Without this, Windows git checks files
+# out with CRLF (autocrlf default) and every file shows as needing reformat.
+* text=auto eol=lf
+
+# Binary blobs (asset working files) should never be touched
+*.blend  binary
+*.fbx    binary
+*.psd    binary
+*.ai     binary
+*.png    binary
+*.jpg    binary
+*.wav    binary
+*.ogg    binary
+*.mp3    binary
+*.rbxl   binary
+*.rbxlx  binary
+*.rbxm   binary
+*.rbxmx  binary
