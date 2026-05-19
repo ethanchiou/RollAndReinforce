@@ -8,15 +8,9 @@
 
 Ordered by what unblocks what. Top items are pure human-only steps.
 
-1. [ ] **Pin the project's toolchain.** From the project root: `aftman install`. First time only — Aftman blocks invocations of pinned tools until they're downloaded. (`~/.aftman/bin` is already on PATH on Windows; no shell config needed.)
-2. [ ] **Start Rojo:** `rojo serve` (from the project root). Listens on `localhost:34872`.
-3. [ ] **Connect Roblox Studio to Rojo.**
-   - Open Roblox Studio (`~/AppData/Local/Roblox/Versions/.../RobloxStudioBeta.exe`), create a blank baseplate.
-   - The Rojo plugin is already installed (`RojoManagedPlugin.rbxm`). Click Rojo plugin → Connect (auto-detects port 34872).
-   - Press Play → expect `[RollAndReinforce] Server bootstrapping…` and a smoke-roll line like `Smoke roll: Common — Tarnished Coin` in Output. ← end-to-end green light.
-4. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). Your local workspace; only code is committed.
-5. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
-6. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
+1. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). Your local workspace; only code is committed.
+2. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
+3. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
 
 After those: move into Week 2 work.
 
@@ -35,7 +29,9 @@ After those: move into Week 2 work.
 - [x] `git init` + initial scaffold commit on `main`
 - [x] Scaffold initial item catalog — 10 items in `src/shared/Items.luau` + `docs/item-database.md`
 - [x] Rojo serve verified working on `localhost:34872`
-- [ ] Items above in **Do these next** (PATH, Studio connect, place file, decisions, spawn tags)
+- [x] Studio connect + Play verified — Output panel shows server + client bootstrap lines
+- [x] Blender MCP bridge probed live (`get_scene_info` returns; `execute_blender_code` ready)
+- [ ] Items above in **Do these next** (place file, decisions, spawn tags)
 
 ## Week 2 — Slot machine + roll math
 
@@ -132,15 +128,18 @@ After those: move into Week 2 work.
 
 ---
 
-## Art pipeline (defer until week 5+)
+## Art pipeline (active — pulled forward from week 5+)
 
-The Roll & Reinforce visual identity lives in ~5-10 hero items + the slot machine itself. Everything else is pack assets.
+The Roll & Reinforce visual identity lives in ~5-10 hero items + the slot machine itself + the zombie roster. Everything else is pack assets.
 
-- [ ] Buy a coherent low-poly zombie + fortress pack from Roblox Creator Store ($50-200)
-- [ ] Author hero items in Blender via `bpy` Python scripts (headless, driven from Claude session) — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet
-- [ ] Bake textures, export FBX (+Y up, -Z forward, meters), import as MeshPart in Studio
-- [ ] Roblox MeshPart limits: ≤21,000 tris, ≤1024×1024 texture per surface
-- [ ] Author `docs/blender-pipeline.md` when first hero item is built
+Pulled forward because the Blender MCP bridge is live now and the procedural pipeline is the fastest way to lock the visual direction before gameplay code accumulates around placeholder models. See `SPEC.md` § Zombie Roster § Visual direction for the style spec.
+
+- [x] **Base zombie (Walker)** — shipped 2026-05-19. `Assets/zombies/zombie-base.blend` + `.fbx`. 160 verts / ~240 tris.
+- [ ] Runner / Brute / Climber / Spitter — silhouette-edits off the Walker base where possible.
+- [ ] Hero items in Blender — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet.
+- [ ] Optionally: low-poly fortress pack from Roblox Creator Store ($50-200) for the shell. Hero items still authored bespoke.
+- [ ] Roblox MeshPart limits to respect: ≤21,000 tris, ≤1024×1024 texture per surface. Target for zombies: ≤1500 tris, 512² albedo.
+- [ ] Author `docs/blender-pipeline.md` when the first zombie ships — repeatable export checklist.
 
 ---
 

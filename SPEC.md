@@ -6,6 +6,10 @@
 
 ## Recently Done
 
+- **2026-05-19** — First art asset: **base zombie (Walker)** shipped via procedural `bpy` script through the Blender MCP bridge. Output: `Assets/zombies/zombie-base.blend` + `zombie-base.fbx` (160 verts / ~240 tris, ~5-stud height, Roblox-friendly axes). Style matches the new SPEC § Visual direction note — blocky-cartoony, sunken eyes with glowing pinpricks, subtle hunch + outstretched arms. The other four zombie types will be silhouette-edits off this base.
+- **2026-05-19** — End-to-end Studio playtest verified. Rojo connected, Play loads the synced tree, Output panel shows the server bootstrap + smoke-roll lines and the client bootstrap lines. Nighttime lighting renders per `default.project.json` (`ClockTime: 19`, dim ambient) — confirms `Lighting` props sync correctly.
+- **2026-05-19** — Blender MCP bridge probed live (Claude → addon on `:9876`). `get_scene_info` returns; `execute_blender_code` available. Hyper3D and Hunyuan3D AI-gen paths are currently disabled in the addon — first asset will be procedural `bpy`.
+- **2026-05-19** — `.gitignore` extended with `*.rbxl.lock` / `*.rbxlx.lock` so Studio session locks stop leaking into `git status`. Commit `2972ae5` on `main`.
 - **2026-05-18** — Infrastructure-clean pass on the scaffold. `selene.toml` + `testez.yml` (Roblox+TestEZ std), `stylua.toml` (tabs / 100-col / LF / double-quotes), `.gitattributes` (force LF repo-wide). `Packages/.gitkeep` so `rojo build` works on a fresh clone. Removed unused `Workspace` import in `Placement.luau`. Source reformatted under the new StyLua config. `selene src` and `stylua --check src` both 0/0 clean; `rojo build` produces a valid `.rbxl`.
 - **2026-05-18** — `STATUS.md` and `TODO.md` refreshed for Windows host; stale macOS paths and dead background-process references removed.
 - Project scaffolded (README, SPEC, TODO, CLAUDE, Rojo project file, skeleton Luau modules, docs/item-database.md).
@@ -102,6 +106,19 @@ Rates and round counts are subject to balance pass at week 11. Visible to the pl
 | Climber | Wall-bypass | Climbs over single-tier walls — forces stacked defenses. Distinct audio + minimap ping. |
 | Spitter | Ranged threat | Stops at distance, ranged acid. Targets the item if exposed. |
 | (Stretch) Burrower | Late-round wildcard | Tunnels under perimeter, surfaces inside. Cut if scope-tight. |
+
+### Visual direction (zombies)
+
+**Cartoonish but mildly scary, Roblox-fit.** Not horror-realistic, not pure-cute. The reference axis is *Plants vs Zombies + Hollow Knight*, not *Left 4 Dead*. Specifically:
+
+- **Silhouette first.** Each type must read at first-person distance from its silhouette alone — Walker hunched, Runner forward-leaning, Brute wide, Climber tall + clawed, Spitter back-tilted with a swollen sac. Silhouette legibility is the climber/spitter mitigation in `SPEC.md` § Risks.
+- **Blocky proportions.** Slight nod to classic Roblox character build — oversized head, simple cubic torso, stylized limbs. Keeps faces below ~2k tris and reads at distance.
+- **Pale-green skin, deep-shadow eye sockets, glowing pinprick eyes.** The eyes carry most of the menace; the rest of the face can be plain.
+- **Tattered, low-saturation clothing.** Greys, browns, dust. Color belongs on items and reinforcements, not zombies — zombies are background, the placed item is the foreground.
+- **No gore.** Avoid blood splatter or exposed-flesh textures — keeps the experience age-broad on Roblox and dodges moderation friction.
+- **Low-poly.** Target ≤1500 tris per zombie body (well under Roblox's 21k MeshPart cap), single 512×512 albedo texture per type. Lets us spawn 30+ on screen without netcode strain.
+
+Base zombie (Walker) is the first asset. The other four types are silhouette-edits of the same base mesh where possible.
 
 ---
 

@@ -38,6 +38,12 @@ sourcemap.json
 *.ai
 assets/raw/
 
+# Game-ready exports under Assets/ are tracked. Working files (.blend1 autosaves,
+# .psd source) stay ignored even here. Move to Git LFS when this grows past a
+# few MB total.
+!Assets/**/*.fbx
+!Assets/**/*.blend
+
 # Logs and local-only
 *.log
 .env

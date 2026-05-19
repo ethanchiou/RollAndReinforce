@@ -3,7 +3,7 @@
 > Point-in-time snapshot of the build. Update when material state changes (tooling installed, services running, blockers resolved). For *what we're building* see `SPEC.md`; for *what's left* see `TODO.md`.
 
 **Last updated:** 2026-05-19
-**Build phase:** Pre-implementation — scaffold complete and lint/format clean; cleanup commits pushed to origin; awaiting first Studio sync.
+**Build phase:** Pre-implementation — scaffold verified end-to-end in Studio (Play → Output shows bootstrap + smoke roll). Blender MCP bridge live. Art pipeline kicking off (first zombie). Gameplay code (Week 2) next.
 **Host:** Windows 11 (`C:\Users\Ethan\OneDrive\Desktop\GameDev\RollAndReinforce`)
 **Working title:** Roll & Reinforce (not locked)
 
@@ -17,14 +17,10 @@ Co-op (2-4) first-person zombie-fortress defense on Roblox. Roll a slot machine 
 
 ## What's running right now
 
-Nothing automatic. Rojo is not currently serving. To start a sync session:
+- **Rojo serve** active on `localhost:34872` (started 2026-05-19 in the current Claude session, background task `b1rlipuvr`). Studio is currently or recently connected to it.
+- **Blender MCP addon** listening on `:9876`. Default scene (Cube/Light/Camera) is present. Hyper3D Rodin + Hunyuan3D AI-gen paths are **disabled** in the addon — flip the checkboxes in the BlenderMCP N-panel and reconnect to enable.
 
-```bash
-cd "C:/Users/Ethan/OneDrive/Desktop/GameDev/RollAndReinforce"
-rojo serve                       # listens on localhost:34872
-```
-
-To verify the port is listening, in PowerShell: `netstat -ano | findstr :34872`.
+To restart Rojo manually: `rojo serve` from the project root. Port check (PowerShell): `netstat -ano | findstr :34872`.
 
 ---
 
@@ -96,8 +92,9 @@ RollAndReinforce/
 - ✅ `rojo build default.project.json` produces a valid `.rbxl` (verified 2026-05-18 on Windows).
 - ✅ `selene src` clean (0 errors / 0 warnings).
 - ✅ `stylua --check src` clean.
-- ✅ Server bootstrap prints item count + smoke roll on Play (verified at the module-wiring level; needs Studio Play to confirm runtime).
-- ✅ Blender MCP server bridges Claude ↔ Blender on port 9876 (verified via direct probe).
+- ✅ Studio Play verified runtime — `[RollAndReinforce] Server bootstrapping…` + smoke roll + `Client bootstrapping…` all appear in Output (verified 2026-05-19).
+- ✅ Default lighting (`ClockTime: 19`, dim ambient) syncs from `default.project.json` — playtest opens to the intended dusk/night scene.
+- ✅ Blender MCP server bridges Claude ↔ Blender on port 9876 (verified via direct `get_scene_info` probe).
 
 ## What's NOT wired yet
 
@@ -105,8 +102,9 @@ RollAndReinforce/
 - ❌ No remote events / RemoteFunctions defined.
 - ❌ No actual gameplay: no slot machine UI, no carry/place mechanic, no zombies, no shop.
 - ❌ No persistence (ProfileService not wired).
-- ❌ No Studio place file synced — Rojo has never been connected to a Studio session.
+- ❌ No Studio place file saved to disk (Rojo syncs source on connect; saving `place.rbxlx` outside the repo is still on the human checklist).
 - ❌ No fortress geometry, no spawn points (`ZombieSpawn` CollectionService tag has no instances).
+- ⚠️ Hyper3D Rodin + Hunyuan3D toggles **off** in the Blender MCP N-panel — first asset will be procedural `bpy` rather than AI-generated.
 
 ---
 
@@ -127,14 +125,11 @@ From `SPEC.md` § Open Decisions:
 
 ## Immediate next actions (for the human)
 
-1. **From inside the project directory, run `aftman install` once** to pull down the pinned `rojo@7.4.4` and `wally@0.3.2`. (Aftman blocks first-time tool runs until trusted/installed.)
-2. **`rojo serve`** to start the sync server.
-3. **In Roblox Studio:** File → New Baseplate → Plugins tab → Rojo → Connect (port 34872).
-4. **Press Play** and watch the Output panel for `[RollAndReinforce] Server bootstrapping…` followed by a smoke-roll line like `Smoke roll: Common — Tarnished Coin`. ← end-to-end green light.
-5. **Save the Studio place** as `place.rbxlx` outside the repo (gitignored anyway). Local workspace only; commit code only via files.
-6. **Lock the 8 open decisions** in `SPEC.md` § Open Decisions. Top three: **name**, **aesthetic**, **who rolls**.
+1. **Save the Studio place** as `place.rbxlx` outside the repo (gitignored anyway). Local workspace only; commit code only via files.
+2. **Lock the 8 open decisions** in `SPEC.md` § Open Decisions. Top three: **name**, **aesthetic**, **who rolls**.
+3. **Drop the base zombie FBX into Studio.** After the procedural asset lands in `Assets/zombies/`, import as MeshPart, eyeball scale against an R15 dummy, tag with `Zombie` via CollectionService. Iterate the script if proportions feel off.
 
-After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog).
+After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog), and the rest of the zombie roster gets silhouette-edited from the Walker base.
 
 ---
 
