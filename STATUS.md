@@ -2,8 +2,8 @@
 
 > Point-in-time snapshot of the build. Update when material state changes (tooling installed, services running, blockers resolved). For *what we're building* see `SPEC.md`; for *what's left* see `TODO.md`.
 
-**Last updated:** 2026-05-18
-**Build phase:** Pre-implementation — scaffold complete and lint/format clean; awaiting first Studio sync.
+**Last updated:** 2026-05-19
+**Build phase:** Pre-implementation — scaffold complete and lint/format clean; cleanup commits pushed to origin; awaiting first Studio sync.
 **Host:** Windows 11 (`C:\Users\Ethan\OneDrive\Desktop\GameDev\RollAndReinforce`)
 **Working title:** Roll & Reinforce (not locked)
 
@@ -52,9 +52,8 @@ To verify the port is listening, in PowerShell: `netstat -ano | findstr :34872`.
 Branch:    main
 Remote:    origin → git@github.com:ethanchiou/RollAndReinforce.git
 Worktree:  clean
+Synced:    main is at origin/main (cleanup commits pushed 2026-05-19)
 ```
-
-Commits ahead of origin/main: see `git log origin/main..HEAD`. Not pushed yet.
 
 ---
 
@@ -134,7 +133,6 @@ From `SPEC.md` § Open Decisions:
 4. **Press Play** and watch the Output panel for `[RollAndReinforce] Server bootstrapping…` followed by a smoke-roll line like `Smoke roll: Common — Tarnished Coin`. ← end-to-end green light.
 5. **Save the Studio place** as `place.rbxlx` outside the repo (gitignored anyway). Local workspace only; commit code only via files.
 6. **Lock the 8 open decisions** in `SPEC.md` § Open Decisions. Top three: **name**, **aesthetic**, **who rolls**.
-7. **`git push -u origin main`** to publish the recent cleanup commits.
 
 After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog).
 

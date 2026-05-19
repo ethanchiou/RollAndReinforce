@@ -6,7 +6,7 @@ Project-specific Claude Code guidance. Read alongside `~/.claude/CLAUDE.md` (glo
 >
 > **Roll & Reinforce** (working title) — co-op (2-4) first-person zombie-fortress defense on Roblox. Each round: roll a slot machine → carry the rolled item into the fortress → place it → defend through waves. Items "bank" after their rarity-tier survival count; unbanked items lost if fortress falls.
 >
-> Currently at **scaffolding stage**. Docs and skeleton modules only — no gameplay implemented.
+> **Pre-implementation, infrastructure clean.** Scaffold + toolchain (selene, stylua, .gitattributes) are in. `selene src` 0/0, `stylua --check src` clean, `rojo build` produces a valid `.rbxl`. No gameplay yet — week 2 work (slot machine UI + RollService remotes) is the next chunk.
 >
 > _Rewrite this block (don't append) when state changes materially._
 
@@ -52,16 +52,21 @@ When game design decisions arise that aren't covered, update `SPEC.md` and note 
 ## Dev workflow
 
 ```bash
-# One-time setup
-aftman install         # installs Rojo, Wally, etc. from aftman.toml (TBD)
-wally install          # installs Knit, ProfileService, TestEZ
-rojo build default.project.json -o build.rbxlx
+# One-time setup (per clone)
+aftman install         # installs pinned rojo + wally from aftman.toml
+wally install          # installs Knit, ProfileService, TestEZ (once uncommented)
 
 # Iterative dev
-rojo serve default.project.json     # then connect Rojo plugin in Studio
+rojo serve             # then connect Rojo plugin in Studio (port 34872)
 
-# Tests
-rojo build --test default.project.json   # or use a TestEZ runner script in Studio
+# Lint + format before committing
+selene src             # std = roblox+testez (see selene.toml + testez.yml)
+stylua --check src     # tabs / 100-col / LF / double quotes (stylua.toml)
+
+# Build a standalone place file
+rojo build default.project.json --output build.rbxl
+
+# Tests — TestEZ runner inside Studio (see src/tests/*.spec.luau)
 ```
 
 ## gstack skills

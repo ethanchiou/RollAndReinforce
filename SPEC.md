@@ -6,7 +6,8 @@
 
 ## Recently Done
 
-- _Nothing yet — pre-implementation._
+- **2026-05-18** — Infrastructure-clean pass on the scaffold. `selene.toml` + `testez.yml` (Roblox+TestEZ std), `stylua.toml` (tabs / 100-col / LF / double-quotes), `.gitattributes` (force LF repo-wide). `Packages/.gitkeep` so `rojo build` works on a fresh clone. Removed unused `Workspace` import in `Placement.luau`. Source reformatted under the new StyLua config. `selene src` and `stylua --check src` both 0/0 clean; `rojo build` produces a valid `.rbxl`.
+- **2026-05-18** — `STATUS.md` and `TODO.md` refreshed for Windows host; stale macOS paths and dead background-process references removed.
 - Project scaffolded (README, SPEC, TODO, CLAUDE, Rojo project file, skeleton Luau modules, docs/item-database.md).
 
 ---

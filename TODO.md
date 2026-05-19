@@ -17,7 +17,6 @@ Ordered by what unblocks what. Top items are pure human-only steps.
 4. [ ] **Save the Studio place** as `place.rbxlx` (anywhere outside the repo — it's gitignored). Your local workspace; only code is committed.
 5. [ ] **Lock the 8 open design decisions** in `SPEC.md` § Open Decisions (Week 1). Top three to nail first: **name**, **aesthetic**, **who rolls**.
 6. [ ] **Tag perimeter spawn parts in Studio** with `CollectionService` tag `ZombieSpawn` once the fortress block-out exists — required for `Placement.luau`'s reachability check to function.
-7. [ ] **Push the recent cleanup commits**: `git push -u origin main`.
 
 After those: move into Week 2 work.
 

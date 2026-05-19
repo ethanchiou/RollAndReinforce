@@ -4,30 +4,46 @@
 
 **Status:** Pre-implementation. Scaffolding only — no gameplay yet.
 
-## Quick start (once Rojo is installed)
+## Quick start
 
 ```bash
-# Install Rojo (one-time, requires aftman or foreman, or download from rojo.space)
-rojo serve default.project.json
-# Then in Roblox Studio: install Rojo plugin, connect on port 34872
+aftman install            # one-time per clone: pins rojo 7.4.4 + wally 0.3.2
+rojo serve                # starts the sync server on localhost:34872
+```
+
+Then in Roblox Studio: File → New Baseplate → Plugins tab → **Rojo** → Connect. Press Play; you should see `[RollAndReinforce] Server bootstrapping…` in the Output panel.
+
+Tooling sanity checks:
+
+```bash
+selene src                # 0 errors / 0 warnings expected
+stylua --check src        # clean diff expected
+rojo build default.project.json --output build.rbxl
 ```
 
 ## Project layout
 
 ```
 RollAndReinforce/
-├── SPEC.md             ← what we're building (read this first)
-├── TODO.md             ← week-by-week implementation checklist
-├── CLAUDE.md           ← guidance for Claude Code sessions
+├── SPEC.md              ← what we're building (read this first)
+├── TODO.md              ← week-by-week implementation checklist
+├── STATUS.md            ← point-in-time build snapshot
+├── CLAUDE.md            ← guidance for Claude Code sessions
 ├── default.project.json ← Rojo project file
+├── aftman.toml          ← toolchain pins (rojo, wally)
+├── wally.toml           ← Luau package deps
+├── selene.toml          ← linter config (std = roblox+testez)
+├── testez.yml           ← TestEZ globals for selene
+├── stylua.toml          ← formatter config
+├── .gitattributes       ← LF line endings repo-wide
+├── Packages/            ← Wally-managed; .gitkeep placeholder
 ├── src/
-│   ├── client/         ← LocalScripts (UI, input, camera, placement preview)
-│   ├── server/         ← ServerScripts (waves, economy, persistence, validation)
-│   ├── shared/         ← ModuleScripts (item db, roll math, types — used by both sides)
-│   └── tests/          ← TestEZ unit tests
-├── assets/             ← models, sounds, UI exports (binary, gitignored or LFS)
+│   ├── client/          ← LocalScripts (UI, input, camera, placement preview)
+│   ├── server/          ← ServerScripts (waves, economy, persistence, validation)
+│   ├── shared/          ← ModuleScripts (item db, roll math, types — both sides)
+│   └── tests/           ← TestEZ unit tests
 └── docs/
-    ├── design-doc.md   ← full game design doc
+    ├── design-doc.md    ← full game design doc
     └── item-database.md ← rolls + items + economy spreadsheet
 ```
 
