@@ -3,6 +3,8 @@
 *.rbxlx
 *.rbxm
 *.rbxmx
+*.rbxl.lock
+*.rbxlx.lock
 build.rbxlx
 build.rbxl
 
