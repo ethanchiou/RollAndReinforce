@@ -6,7 +6,7 @@ Project-specific Claude Code guidance. Read alongside `~/.claude/CLAUDE.md` (glo
 >
 > **Roll & Reinforce** (working title) — co-op (2-4) first-person zombie-fortress defense on Roblox. Each round: roll a slot machine → carry the rolled item into the fortress → place it → defend through waves. Items "bank" after their rarity-tier survival count; unbanked items lost if fortress falls.
 >
-> **Pre-implementation, scaffold + art baseline shipped.** Toolchain clean (`selene src` 0/0, `stylua --check src` clean, `rojo build` valid). Studio playtest verified end-to-end (Output panel shows server + client bootstrap on Play). MVP zombie roster — Walker / Runner / Brute / Climber / Spitter — authored via Blender MCP and shipped as procedural FBX MeshParts under `Assets/zombies/`. No gameplay code yet — week 2 work (slot machine UI + RollService remotes + zombie AI scripts) is the next chunk.
+> **Pre-implementation, scaffold + art baseline shipped.** Toolchain clean (`selene src` 0/0, `stylua --check src` clean, `rojo build` valid). Studio playtest verified end-to-end (Output panel shows server + client bootstrap on Play). MVP zombie roster — Walker / Runner / Brute / Climber / Spitter — authored via Blender MCP and shipped as procedural FBX MeshParts under `Assets/zombies/`. First reinforcement pack (door / wall / roof / roof-plate / hall-blockade / stair-blockade) under `Assets/reinforcements/` and a food-themed weapon trio (baguette bat / pineapple sledge / carrot darts) under `Assets/weapons/` also shipped. No gameplay code yet — week 2 work (slot machine UI + RollService remotes + zombie AI scripts) is the next chunk.
 >
 > _Rewrite this block (don't append) when state changes materially._
 

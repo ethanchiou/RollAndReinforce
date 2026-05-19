@@ -16,6 +16,47 @@ After those: move into Week 2 work.
 
 ---
 
+## 🧰 Manual setup needed (Studio asset import)
+
+Blender authors `.blend` + `.fbx` under `Assets/`; Rojo only syncs `src/`, so meshes have to be imported into Studio once. Repeat per asset whenever a new `.fbx` lands or an existing one is rebuilt.
+
+**Per-asset import procedure:**
+
+1. Open Studio with `place.rbxlx` (your local working place file).
+2. Drag the `.fbx` into the 3D viewport (or File → New From File…).
+3. In the import dialog: **Scale: 1** (Blender m = stud), uncheck "Import textures" (materials are vertex-color), Collision Fidelity: **Default** for now.
+4. Move the imported `MeshPart` into `ReplicatedStorage.Models.<Category>.<AssetName>` (create the folder hierarchy on first import). Categories: `Zombies`, `Reinforcements`, `Weapons`.
+5. Set `Anchored = true` on reinforcement meshes. Weapons stay unanchored.
+6. For irregular silhouettes (pineapple sledge, roof ramp, climber zombie) bump `CollisionFidelity = "PreciseConvexDecomposition"` after import.
+7. Save the place (`Ctrl+S`). The mesh uploads to your experience's CDN; the `MeshId` persists for future sessions.
+8. **Re-import workflow** (when an `.fbx` is rebuilt): right-click the existing `MeshPart` → Save to File (backup if you want), then drag the new `.fbx` over the same `MeshPart` in the Explorer to replace its mesh in place. The `MeshId` updates, the path stays the same so Luau references don't break.
+
+**Assets pending first import** (uncheck as imported):
+
+Zombies — `Assets/zombies/`:
+- [ ] `zombie-base` (Walker)
+- [ ] `zombie-runner`
+- [ ] `zombie-brute`
+- [ ] `zombie-climber`
+- [ ] `zombie-spitter`
+
+Reinforcements — `Assets/reinforcements/`:
+- [ ] `reinf-door`
+- [ ] `reinf-wall`
+- [ ] `reinf-roof` (modular ramp section — multiple can be tiled for a full roof)
+- [ ] `reinf-roof-plate` (armored ramp, same footprint as `reinf-roof`)
+- [ ] `blockade-hall`
+- [ ] `blockade-stair`
+
+Weapons — `Assets/weapons/`:
+- [ ] `weapon-baguette-bat`
+- [ ] `weapon-pineapple-sledge`
+- [ ] `weapon-carrot-darts`
+
+`.rbxlx` is gitignored, so the imported `MeshPart`s only exist in your local Studio session + the Roblox CDN. Anyone cloning the repo re-imports from the `.fbx` source files.
+
+---
+
 ## ⚠️ Operational debt to clear
 
 - [ ] **Migrate Aftman → Rokit before 2026-07-19.** Aftman's upstream is archived. `rokit.toml` uses the same format as `aftman.toml`, so migration is trivial. Install Rokit (`cargo install rokit` or the official installer), copy `aftman.toml` → `rokit.toml`, `rokit install`.
@@ -139,6 +180,8 @@ Pulled forward because the Blender MCP bridge is live now and the procedural pip
 - [x] **Brute** — shipped 2026-05-19. `Assets/zombies/zombie-brute.{blend,fbx}`. 400 v / 600 t. Wide, no-neck, massive arms, chest plate, knuckle spikes, asymmetric oversized eye.
 - [x] **Climber** — shipped 2026-05-19. `Assets/zombies/zombie-climber.{blend,fbx}`. 344 v / 516 t. Tall mantis, pale skin, hand+toe claws, purple eyes.
 - [x] **Spitter** — shipped 2026-05-19. `Assets/zombies/zombie-spitter.{blend,fbx}`. 304 v / 456 t. Back-tilted, glowing acid sac, drooling mouth, atrophied arms.
+- [x] **Reinforcement pack v1** — shipped 2026-05-19. Door (796 t), wall (984 t), roof (2004 t), roof-plate armor (644 t), hall blockade (2400 t), stair blockade (1124 t) under `Assets/reinforcements/`. All wood-tier first pass; metal/reinforced tiers TBD.
+- [x] **Weapon trio v1** — shipped 2026-05-19. Baguette bat (1420 t), pineapple sledge (2368 t), carrot throwing darts (2368 t) under `Assets/weapons/`. Food-themed comedic melee + thrown set.
 - [ ] Hero items in Blender — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet.
 - [ ] Optionally: low-poly fortress pack from Roblox Creator Store ($50-200) for the shell. Hero items still authored bespoke.
 - [ ] Roblox MeshPart limits to respect: ≤21,000 tris, ≤1024×1024 texture per surface. Target for zombies: ≤1500 tris, 512² albedo.

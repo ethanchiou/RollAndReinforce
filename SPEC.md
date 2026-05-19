@@ -6,6 +6,19 @@
 
 ## Recently Done
 
+- **2026-05-19** — **First reinforcement + weapon pack shipped** (9 assets). Procedural `.blend` + `.fbx` under `Assets/reinforcements/` and `Assets/weapons/`. Style matches the blocky-cartoony zombie aesthetic (Plants vs Zombies + Hollow Knight axis).
+  | Asset | File | Tris | Notes |
+  |---|---|---|---|
+  | Door reinforcement | `reinforcements/reinf-door` | 796 | Boarded planks, X-brace, metal corner brackets, blood smear |
+  | Wall reinforcement | `reinforcements/reinf-wall` | 984 | 3 vertical planks, iron straps + rivets, diagonal brace, claw marks |
+  | Roof piece | `reinforcements/reinf-roof` | 500 | Single Fortnite-style roof ramp wedge — 4×4 footprint, gable end caps, rafters, shingles, fascia, ridge cap |
+  | Roof reinforcement | `reinforcements/reinf-roof-plate` | 1216 | Matching-footprint armored wedge — corrugated metal sheet, ridge cap with bolts, barbed-wire ridge, sandbag eave lip |
+  | Hall blockade | `reinforcements/blockade-hall` | 2400 | Sandbag wall + plywood + metal cap + barbed-wire coils |
+  | Stair blockade | `reinforcements/blockade-stair` | 1124 | Stair-matched 35° pitch with planks, rails, barbed wire |
+  | Baguette baseball bat | `weapons/weapon-baguette-bat` | 8716 | Lathed bmesh baguette body (proper belly profile) with subsurf smoothing, 5 diagonal score cuts showing bread inner, leather grip wrap, knob, flour speckles |
+  | Pineapple sledgehammer | `weapons/weapon-pineapple-sledge` | 2368 | Pineapple head with cross-hatch scales, green crown, wood haft + grip |
+  | Carrot throwing darts | `weapons/weapon-carrot-darts` | 2368 | Set of 3 orange carrots with leafy tops, dirt patch base |
+
 - **2026-05-19** — **MVP zombie roster complete** (5/5). Each type a separate procedural `.blend` + `.fbx` under `Assets/zombies/`, distinct silhouette per SPEC § Visual direction. All under the 1500-tri budget.
   | Type    | File                  | Tris | Silhouette cue            | Eye glow |
   |---------|-----------------------|------|---------------------------|----------|

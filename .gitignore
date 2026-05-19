@@ -44,6 +44,9 @@ assets/raw/
 !Assets/**/*.fbx
 !Assets/**/*.blend
 
+# Preview renders are regenerated from .blend; don't commit
+Assets/**/preview-*.png
+
 # Logs and local-only
 *.log
 .env
