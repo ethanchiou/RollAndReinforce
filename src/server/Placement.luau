@@ -58,11 +58,7 @@ local function pathExists(from: Vector3, to: Vector3): boolean
 end
 
 -- Validate a proposed placement. Server only.
-function Module.validate(
-	itemId: string,
-	position: Vector3,
-	ownerUserId: number
-): PlacementResult
+function Module.validate(itemId: string, position: Vector3, ownerUserId: number): PlacementResult
 	local item = Items.get(itemId)
 	if not item then
 		return { ok = false, reason = "Unknown item id: " .. itemId }
@@ -81,7 +77,10 @@ function Module.validate(
 			end
 		end
 		if not reachable then
-			return { ok = false, reason = "No zombie can path to this spot. Place somewhere reachable." }
+			return {
+				ok = false,
+				reason = "No zombie can path to this spot. Place somewhere reachable.",
+			}
 		end
 	end
 

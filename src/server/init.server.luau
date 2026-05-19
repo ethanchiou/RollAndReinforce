@@ -8,7 +8,9 @@ local function safeRequire(parent: Instance, name: string)
 	local child = parent:FindFirstChild(name)
 	if child and child:IsA("ModuleScript") then
 		local ok, mod = pcall(require, child)
-		if ok then return mod end
+		if ok then
+			return mod
+		end
 		warn("[RollAndReinforce] failed to require", name, mod)
 	end
 	return nil

@@ -8,7 +8,8 @@
 -- Concrete spawn lists for early rounds are hand-authored for tutorial-feel;
 -- mid/late rounds are procedural off scaling formulas.
 
-local Types = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Types"))
+local Types =
+	require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Types"))
 
 type WaveDefinition = Types.WaveDefinition
 type ZombieKind = Types.ZombieKind
@@ -55,17 +56,37 @@ local EARLY_WAVES: { WaveDefinition } = {
 local function proceduralWave(round: number): WaveDefinition
 	local intensity = 1 + (round - 1) * 0.35
 	local spawns = {
-		{ kind = "Walker" :: ZombieKind, count = math.floor(10 * intensity), delay = math.max(0.4, 1.6 - round * 0.05) },
-		{ kind = "Runner" :: ZombieKind, count = math.floor(3 * intensity), delay = math.max(0.6, 3.0 - round * 0.08) },
+		{
+			kind = "Walker" :: ZombieKind,
+			count = math.floor(10 * intensity),
+			delay = math.max(0.4, 1.6 - round * 0.05),
+		},
+		{
+			kind = "Runner" :: ZombieKind,
+			count = math.floor(3 * intensity),
+			delay = math.max(0.6, 3.0 - round * 0.08),
+		},
 	}
 	if round >= 4 then
-		table.insert(spawns, { kind = "Brute" :: ZombieKind, count = math.floor(1 + (round - 4) * 0.5), delay = 20.0 })
+		table.insert(spawns, {
+			kind = "Brute" :: ZombieKind,
+			count = math.floor(1 + (round - 4) * 0.5),
+			delay = 20.0,
+		})
 	end
 	if round >= 5 then
-		table.insert(spawns, { kind = "Climber" :: ZombieKind, count = math.floor(1 + (round - 5) * 0.4), delay = 12.0 })
+		table.insert(spawns, {
+			kind = "Climber" :: ZombieKind,
+			count = math.floor(1 + (round - 5) * 0.4),
+			delay = 12.0,
+		})
 	end
 	if round >= 7 then
-		table.insert(spawns, { kind = "Spitter" :: ZombieKind, count = math.floor(1 + (round - 7) * 0.3), delay = 18.0 })
+		table.insert(spawns, {
+			kind = "Spitter" :: ZombieKind,
+			count = math.floor(1 + (round - 7) * 0.3),
+			delay = 18.0,
+		})
 	end
 
 	return {

@@ -44,7 +44,9 @@ return function()
 				counts[r] += 1
 			end
 
-			local function pct(c) return c / N * 100 end
+			local function pct(c)
+				return c / N * 100
+			end
 			expect(math.abs(pct(counts.Common) - 50)).to.be.near(0, 3)
 			expect(math.abs(pct(counts.Uncommon) - 25)).to.be.near(0, 3)
 			expect(math.abs(pct(counts.Rare) - 15)).to.be.near(0, 3)
