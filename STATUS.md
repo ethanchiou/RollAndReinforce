@@ -3,7 +3,7 @@
 > Point-in-time snapshot of the build. Update when material state changes (tooling installed, services running, blockers resolved). For *what we're building* see `SPEC.md`; for *what's left* see `TODO.md`.
 
 **Last updated:** 2026-05-19
-**Build phase:** Pre-implementation — scaffold verified end-to-end in Studio (Play → Output shows bootstrap + smoke roll). Blender MCP bridge live. Art pipeline kicking off (first zombie). Gameplay code (Week 2) next.
+**Build phase:** Pre-implementation — scaffold verified end-to-end in Studio. **MVP zombie roster (5/5) shipped** as procedural Blender assets — Walker, Runner, Brute, Climber, Spitter, each independent `.blend` + `.fbx` under `Assets/zombies/`. Gameplay code (Week 2: slot machine UI + RollService remotes) is the next chunk.
 **Host:** Windows 11 (`C:\Users\Ethan\OneDrive\Desktop\GameDev\RollAndReinforce`)
 **Working title:** Roll & Reinforce (not locked)
 
@@ -71,6 +71,13 @@ RollAndReinforce/
 ├── stylua.toml                 (tabs/100-col/LF/double-quotes)
 ├── default.project.json        (Rojo project config)
 ├── Packages/                   (placeholder via .gitkeep; populated by wally install)
+├── Assets/
+│   └── zombies/                (5 procedural Blender models, .blend + .fbx each)
+│       ├── zombie-base.{blend,fbx}      (Walker — 528 tris)
+│       ├── zombie-runner.{blend,fbx}    (Runner — 408 tris)
+│       ├── zombie-brute.{blend,fbx}     (Brute — 600 tris)
+│       ├── zombie-climber.{blend,fbx}   (Climber — 516 tris)
+│       └── zombie-spitter.{blend,fbx}   (Spitter — 456 tris)
 ├── docs/
 │   ├── design-doc.md
 │   └── item-database.md
@@ -95,16 +102,18 @@ RollAndReinforce/
 - ✅ Studio Play verified runtime — `[RollAndReinforce] Server bootstrapping…` + smoke roll + `Client bootstrapping…` all appear in Output (verified 2026-05-19).
 - ✅ Default lighting (`ClockTime: 19`, dim ambient) syncs from `default.project.json` — playtest opens to the intended dusk/night scene.
 - ✅ Blender MCP server bridges Claude ↔ Blender on port 9876 (verified via direct `get_scene_info` probe).
+- ✅ Procedural asset pipeline: 5/5 MVP zombie models authored, joined, FBX-exported with Roblox-friendly axes (+Y up, -Z forward, meters) under `Assets/zombies/`. Each model is a single MeshPart drop-in.
 
 ## What's NOT wired yet
 
 - ❌ No Wally deps installed (Knit, ProfileService, TestEZ are commented in `wally.toml`).
 - ❌ No remote events / RemoteFunctions defined.
-- ❌ No actual gameplay: no slot machine UI, no carry/place mechanic, no zombies, no shop.
+- ❌ No actual gameplay: no slot machine UI, no carry/place mechanic, no AI/scripts on zombies, no shop. (Models exist as art, not as wired-up gameplay entities.)
 - ❌ No persistence (ProfileService not wired).
 - ❌ No Studio place file saved to disk (Rojo syncs source on connect; saving `place.rbxlx` outside the repo is still on the human checklist).
+- ❌ Zombie FBXs not yet imported as MeshParts in Studio — assets are on disk, tagging via `Zombie` CollectionService is pending the human Studio-side import pass.
 - ❌ No fortress geometry, no spawn points (`ZombieSpawn` CollectionService tag has no instances).
-- ⚠️ Hyper3D Rodin + Hunyuan3D toggles **off** in the Blender MCP N-panel — first asset will be procedural `bpy` rather than AI-generated.
+- ⚠️ Hyper3D Rodin + Hunyuan3D toggles **off** in the Blender MCP N-panel — all zombies were authored via procedural `bpy` instead.
 
 ---
 
@@ -127,9 +136,9 @@ From `SPEC.md` § Open Decisions:
 
 1. **Save the Studio place** as `place.rbxlx` outside the repo (gitignored anyway). Local workspace only; commit code only via files.
 2. **Lock the 8 open decisions** in `SPEC.md` § Open Decisions. Top three: **name**, **aesthetic**, **who rolls**.
-3. **Drop the base zombie FBX into Studio.** After the procedural asset lands in `Assets/zombies/`, import as MeshPart, eyeball scale against an R15 dummy, tag with `Zombie` via CollectionService. Iterate the script if proportions feel off.
+3. **Import all 5 zombie FBXs into Studio.** Each in `Assets/zombies/zombie-{base,runner,brute,climber,spitter}.fbx`. Import as MeshPart, eyeball scale against an R15 dummy (each model is built at ~5-stud height except Climber at ~6.5 and Brute at ~3.8), tag with `Zombie` + a per-type tag (`Zombie_Walker`, `Zombie_Runner`, etc.) via CollectionService. The spawner will resolve type → MeshPart by tag.
 
-After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog), and the rest of the zombie roster gets silhouette-edited from the Walker base.
+After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog). Walker is the silhouette baseline; the other four are independent files but follow the same material conventions (shared palette + per-type EyeGlow variant).
 
 ---
 

@@ -2,7 +2,7 @@
 
 > Working title. Co-op (2-4) first-person zombie-fortress defense on Roblox. Roll a slot machine each round → carry the rolled item into the fortress → place it → defend it through waves of varied zombies. Survive enough rounds and the item is permanently "banked." Lose the fortress and unbanked items are forfeit.
 
-**Status:** Pre-implementation. Scaffolding only — no gameplay yet.
+**Status:** Pre-implementation. Scaffold + art baseline (5 zombie MeshParts under `Assets/zombies/`) shipped; no gameplay code yet.
 
 ## Quick start
 
@@ -37,6 +37,8 @@ RollAndReinforce/
 ├── stylua.toml          ← formatter config
 ├── .gitattributes       ← LF line endings repo-wide
 ├── Packages/            ← Wally-managed; .gitkeep placeholder
+├── Assets/
+│   └── zombies/         ← 5 procedural MeshPart FBXs (Walker/Runner/Brute/Climber/Spitter)
 ├── src/
 │   ├── client/          ← LocalScripts (UI, input, camera, placement preview)
 │   ├── server/          ← ServerScripts (waves, economy, persistence, validation)
