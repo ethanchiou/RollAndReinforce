@@ -2,8 +2,9 @@
 
 > Point-in-time snapshot of the build. Update when material state changes (tooling installed, services running, blockers resolved). For *what we're building* see `SPEC.md`; for *what's left* see `TODO.md`.
 
-**Last updated:** 2026-05-12
-**Build phase:** Pre-implementation — scaffold complete, awaiting first Studio sync.
+**Last updated:** 2026-05-18
+**Build phase:** Pre-implementation — scaffold complete and lint/format clean; awaiting first Studio sync.
+**Host:** Windows 11 (`C:\Users\Ethan\OneDrive\Desktop\GameDev\RollAndReinforce`)
 **Working title:** Roll & Reinforce (not locked)
 
 ---
@@ -16,12 +17,14 @@ Co-op (2-4) first-person zombie-fortress defense on Roblox. Roll a slot machine 
 
 ## What's running right now
 
-| Service | Status | Detail |
-|---|---|---|
-| **Rojo server** | 🟢 Listening | `localhost:34872`, PID 58357. Background task in active Claude session. |
+Nothing automatic. Rojo is not currently serving. To start a sync session:
 
-To stop Rojo: `kill 58357` (or close the Claude session that owns the background task).
-To verify: `lsof -i :34872 -P` should show the rojo process.
+```bash
+cd "C:/Users/Ethan/OneDrive/Desktop/GameDev/RollAndReinforce"
+rojo serve                       # listens on localhost:34872
+```
+
+To verify the port is listening, in PowerShell: `netstat -ano | findstr :34872`.
 
 ---
 
@@ -29,17 +32,17 @@ To verify: `lsof -i :34872 -P` should show the rojo process.
 
 | Tool | Version | Path | Notes |
 |---|---|---|---|
-| Aftman | 0.3.0 | `/opt/homebrew/bin/aftman` | ⚠️ Brew formula deprecated. Migrate to **Rokit** before 2026-07-19. |
-| Rojo | 7.4.4 | `~/.aftman/bin/rojo` | Pinned in `aftman.toml`. |
-| Wally | 0.3.2 | `~/.aftman/bin/wally` | Pinned in `aftman.toml`. No deps installed yet — `wally.toml` entries commented. |
-| Git | 2.48.1 | `/usr/bin/git` | System-default. |
-| Roblox Studio | (Mac app) | `/Applications/RobloxStudio.app` | Plugin install + Connect still required (manual). |
-| Blender | 5.1.1 | `/Applications/Blender.app` | CLI accessible via `--background --python`. No MCP wired into this session. |
+| Aftman | 0.3.0 | `C:\Users\Ethan\.aftman\bin\aftman.exe` | ⚠️ Upstream archived. Migrate to **Rokit** before 2026-07-19. |
+| Rojo | 7.4.4 (project pin) / 7.7.0-rc.1 (global) | `C:\Users\Ethan\.aftman\bin\rojo.exe` | Project-local pin in `aftman.toml`; aftman shim auto-installs on first invoke inside the project. |
+| Wally | 0.3.2 | `C:\Users\Ethan\.aftman\bin\wally.exe` | No deps installed yet — entries commented in `wally.toml`. |
+| Selene | 0.30.1 | `C:\Users\Ethan\.aftman\bin\selene.exe` | `selene src` returns 0/0 clean. |
+| StyLua | 2.5.2 | `C:\Users\Ethan\.aftman\bin\StyLua.exe` | `stylua --check src` clean. |
+| Lune | 0.10.4 | `C:\Users\Ethan\.aftman\bin\lune.exe` | Standalone Luau CLI runtime. |
+| Git | 2.x | `C:\Program Files\Git\cmd\git.exe` | Git for Windows. |
+| Roblox Studio | (Windows app) | `~/AppData/Local/Roblox/Versions/.../RobloxStudioBeta.exe` | Rojo plugin already installed (`Plugins/RojoManagedPlugin.rbxm` confirmed). |
+| Blender | 5.1.1 | `C:\Program Files\Blender Foundation\Blender 5.1\blender.exe` | Blender MCP server registered with Claude; addon installed and listening on `:9876`. |
 
-**Shell PATH:** `~/.aftman/bin` is **not** in `~/.zshrc`. Tools work from inside the project (aftman shim resolution), but for global use append:
-```bash
-export PATH="$HOME/.aftman/bin:$PATH"
-```
+**Shell PATH:** `~/.aftman/bin` is already on PATH (Aftman installer added it on Windows). No shell config edits needed.
 
 ---
 
@@ -47,14 +50,11 @@ export PATH="$HOME/.aftman/bin:$PATH"
 
 ```
 Branch:    main
-Commits:   2 on main
-   5f2b5d0  Mark week 1 install steps complete; document PATH + Rokit migration
-   974faab  Initial scaffold: Roll & Reinforce co-op zombie-fortress Roblox MVP
-Remote:    (none yet — local-only)
+Remote:    origin → git@github.com:ethanchiou/RollAndReinforce.git
 Worktree:  clean
 ```
 
-No remote. When ready: `gh repo create RollAndReinforce --private --source=. --push`.
+Commits ahead of origin/main: see `git log origin/main..HEAD`. Not pushed yet.
 
 ---
 
@@ -62,6 +62,7 @@ No remote. When ready: `gh repo create RollAndReinforce --private --source=. --p
 
 ```
 RollAndReinforce/
+├── .gitattributes              (LF line endings repo-wide)
 ├── .gitignore
 ├── README.md
 ├── SPEC.md                     (design source of truth)
@@ -70,32 +71,34 @@ RollAndReinforce/
 ├── CLAUDE.md                   (agent guidance)
 ├── aftman.toml                 (Rojo + Wally version pins)
 ├── wally.toml                  (Knit/ProfileService/TestEZ commented)
+├── selene.toml                 (std = "roblox+testez")
+├── testez.yml                  (TestEZ globals for selene)
+├── stylua.toml                 (tabs/100-col/LF/double-quotes)
 ├── default.project.json        (Rojo project config)
-├── Packages/                   (placeholder — empty; wally install will populate)
-├── assets/                     (empty — for models, sounds, UI)
+├── Packages/                   (placeholder via .gitkeep; populated by wally install)
 ├── docs/
-│   ├── design-doc.md           (rationale + alternatives considered)
-│   └── item-database.md        (catalog + future items)
+│   ├── design-doc.md
+│   └── item-database.md
 └── src/
-    ├── client/init.client.luau (bootstrap)
-    ├── server/init.server.luau (bootstrap with smoke roll)
-    ├── server/Placement.luau   (server-auth placement + pathfinding check)
-    ├── server/Waves.luau       (hand-authored r1-3 + procedural r4+, sub-linear player scaling)
-    ├── shared/Items.luau       (10-item catalog across 5 rarities)
-    ├── shared/RollMath.luau    (Balatro v2-ready: rollItem(weights, modifiers))
-    ├── shared/Types.luau       (strict-typed shared types)
-    └── tests/RollMath.spec.luau (TestEZ specs: distribution within 5% over 10k rolls)
+    ├── client/init.client.luau
+    ├── server/init.server.luau
+    ├── server/Placement.luau
+    ├── server/Waves.luau
+    ├── shared/Items.luau
+    ├── shared/RollMath.luau
+    ├── shared/Types.luau
+    └── tests/RollMath.spec.luau
 ```
-
-**Line count:** ~1325 lines across 14 source + 6 doc files.
 
 ---
 
 ## What works end-to-end
 
-- ✅ Rojo project loads (verified — `rojo serve` started without errors after Packages placeholder added).
-- ✅ Server bootstrap prints item count + smoke roll on Play (verified in module wiring; needs Studio Play to confirm).
-- ✅ Blender headless Python automation (verified — created 12-vert mesh from `bpy` script in 2026-05-12 smoke test).
+- ✅ `rojo build default.project.json` produces a valid `.rbxl` (verified 2026-05-18 on Windows).
+- ✅ `selene src` clean (0 errors / 0 warnings).
+- ✅ `stylua --check src` clean.
+- ✅ Server bootstrap prints item count + smoke roll on Play (verified at the module-wiring level; needs Studio Play to confirm runtime).
+- ✅ Blender MCP server bridges Claude ↔ Blender on port 9876 (verified via direct probe).
 
 ## What's NOT wired yet
 
@@ -103,7 +106,7 @@ RollAndReinforce/
 - ❌ No remote events / RemoteFunctions defined.
 - ❌ No actual gameplay: no slot machine UI, no carry/place mechanic, no zombies, no shop.
 - ❌ No persistence (ProfileService not wired).
-- ❌ No Studio place file synced — Rojo is serving but nothing has connected to it yet.
+- ❌ No Studio place file synced — Rojo has never been connected to a Studio session.
 - ❌ No fortress geometry, no spawn points (`ZombieSpawn` CollectionService tag has no instances).
 
 ---
@@ -125,11 +128,13 @@ From `SPEC.md` § Open Decisions:
 
 ## Immediate next actions (for the human)
 
-1. **Add `~/.aftman/bin` to `~/.zshrc` PATH** — see Tooling Installed.
-2. **Open Roblox Studio**, install the Rojo plugin (one-time), click Connect → port 34872.
-3. **Press Play in Studio**, watch Output for `[RollAndReinforce] Server bootstrapping…` + smoke roll line.
-4. **Save the Studio place as `place.rbxlx`** somewhere outside the repo (it's gitignored). This is your local workspace; commit code only via files.
-5. **Lock the 8 open decisions** — capture answers in `SPEC.md` § Open Decisions.
+1. **From inside the project directory, run `aftman install` once** to pull down the pinned `rojo@7.4.4` and `wally@0.3.2`. (Aftman blocks first-time tool runs until trusted/installed.)
+2. **`rojo serve`** to start the sync server.
+3. **In Roblox Studio:** File → New Baseplate → Plugins tab → Rojo → Connect (port 34872).
+4. **Press Play** and watch the Output panel for `[RollAndReinforce] Server bootstrapping…` followed by a smoke-roll line like `Smoke roll: Common — Tarnished Coin`. ← end-to-end green light.
+5. **Save the Studio place** as `place.rbxlx` outside the repo (gitignored anyway). Local workspace only; commit code only via files.
+6. **Lock the 8 open decisions** in `SPEC.md` § Open Decisions. Top three: **name**, **aesthetic**, **who rolls**.
+7. **`git push -u origin main`** to publish the recent cleanup commits.
 
 After that → week 2 begins (slot machine UI + RollService remote pipeline + full item catalog).
 
@@ -139,8 +144,7 @@ After that → week 2 begins (slot machine UI + RollService remote pipeline + fu
 
 | Issue | Severity | Mitigation |
 |---|---|---|
-| Aftman deprecated, brew formula sunsets 2026-07-19 | Medium | Migrate to Rokit before deadline. Config format is compatible. |
-| `Packages/` is empty but referenced in `default.project.json` | Low | Placeholder created. Real contents arrive when first Wally dep is uncommented + `wally install` runs. |
-| `~/.aftman/bin` not on PATH globally | Low | One-line zshrc addition documented. |
-| Background Rojo serve dies with the Claude session | Low | User can restart with `cd <project> && rojo serve default.project.json` anytime. |
+| Aftman archived, sunset 2026-07-19 | Medium | Migrate to Rokit. Manifest format is compatible — copy `aftman.toml` → `rokit.toml`, `rokit install`. |
+| Project pin (Rojo 7.4.4) lags global (7.7.0-rc.1) | Low | Bump `aftman.toml` to a current Rojo when convenient; no breaking changes expected for build/serve. |
+| `Packages/` populated only by Wally | Low | `.gitkeep` placeholder added so `rojo build` works on fresh clone. First `wally install` will fill it. |
 | Roblox loot-box rules apply to slot machine | Medium | Documented in SPEC § Risks. Rolls free, odds visible, no Robux-cost rerolls — confirmed in design. |
