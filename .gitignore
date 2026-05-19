@@ -6,8 +6,10 @@
 build.rbxlx
 build.rbxl
 
-# Wally package cache
-/Packages/
+# Wally package cache — ignore contents but keep .gitkeep so the directory
+# exists on a fresh clone (default.project.json mounts it as Packages).
+/Packages/*
+!/Packages/.gitkeep
 /ServerPackages/
 /DevPackages/
 wally.lock
