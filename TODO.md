@@ -134,7 +134,7 @@ The Roll & Reinforce visual identity lives in ~5-10 hero items + the slot machin
 
 Pulled forward because the Blender MCP bridge is live now and the procedural pipeline is the fastest way to lock the visual direction before gameplay code accumulates around placeholder models. See `SPEC.md` § Zombie Roster § Visual direction for the style spec.
 
-- [x] **Base zombie (Walker)** — shipped 2026-05-19. `Assets/zombies/zombie-base.blend` + `.fbx`. 160 verts / ~240 tris.
+- [x] **Base zombie (Walker)** — shipped 2026-05-19. `Assets/zombies/zombie-base.blend` + `.fbx`. 352 verts / 528 tris. Open mouth + bandages + bloodstain + skin/cloth noise mottling.
 - [ ] Runner / Brute / Climber / Spitter — silhouette-edits off the Walker base where possible.
 - [ ] Hero items in Blender — Crown of Ash, Gemstone Idol, Ancient Relic, slot machine cabinet.
 - [ ] Optionally: low-poly fortress pack from Roblox Creator Store ($50-200) for the shell. Hero items still authored bespoke.
